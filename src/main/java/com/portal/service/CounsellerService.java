@@ -8,7 +8,7 @@ import com.portal.entity.CounsellerEntity;
 
 public interface CounsellerService {
 	
-	CounsellerResponse loginCounseller(LoginDto dto);
+	String loginCounseller(LoginDto dto);
 	
 	Boolean registerCounseller(RegisterDto dto);
 	

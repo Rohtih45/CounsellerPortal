@@ -17,6 +17,8 @@ public class CounsellerResponse {
 	
 	private String pwd;
 	
+	private Integer phno;
+	
 	private List<Student> students;
 
 }

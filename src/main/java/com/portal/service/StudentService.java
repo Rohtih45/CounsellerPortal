@@ -15,6 +15,6 @@ public interface StudentService {
 	
 	List<StudentResponse> getFilteredEnqueries(EnqueryFilterResponse enqueryFilterResponse, Integer counsellerId);
 	
-	Boolean updateStudent(StudentResponse studentDto);
+	Boolean updateStudent(StudentResponse studentDto,Integer stuId);
 
 }

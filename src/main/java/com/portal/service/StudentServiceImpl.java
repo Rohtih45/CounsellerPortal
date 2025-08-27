@@ -2,6 +2,7 @@ package com.portal.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
@@ -91,7 +92,9 @@ public class StudentServiceImpl implements StudentService {
 
 		Example<Student> obj = Example.of(studentEnq);
 
-		List<Student> studentEnqs = repo.findBy(obj, student -> student.all());
+//		List<Student> studentsEnq = repo.findBy(obj, enq -> enq.all());
+
+		List<Student> studentEnqs = repo.findAll(Example.of(studentEnq));
 
 		List<StudentResponse> dtos = new ArrayList<>();
 
@@ -114,7 +117,7 @@ public class StudentServiceImpl implements StudentService {
 			}
 		}
 
-		if (!"".equals(enqueryFilterResponse.getCourse()) && enqueryFilterResponse.getCourse() != null) {  
+		if (!"".equals(enqueryFilterResponse.getCourse()) && enqueryFilterResponse.getCourse() != null) {
 			List<Student> Courses = students.stream()
 					.filter(student -> student.getCourse().equals(enqueryFilterResponse.getCourse()))
 					.collect(Collectors.toList());
@@ -149,12 +152,13 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public Boolean updateStudent(StudentResponse studentDto) {
+	public Boolean updateStudent(StudentResponse studentDto, Integer stuId) {
 		// TODO Auto-generated method stub
-		Student student = new Student();
+		Student entity = repo.findById(stuId).orElseThrow();
 
-		BeanUtils.copyProperties(studentDto, student);
-		return repo.save(student) != null ? true : false;
+		BeanUtils.copyProperties(studentDto, entity);
+
+		return repo.save(entity) != null ? true : false;
 	}
 
 }

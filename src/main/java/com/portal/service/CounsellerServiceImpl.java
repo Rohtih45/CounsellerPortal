@@ -18,20 +18,37 @@ import com.portal.entity.CounsellerEntity;
 import com.portal.entity.Student;
 import com.portal.repository.CounsellerRepo;
 
+import jakarta.servlet.http.HttpSession;
+
 @Service
 public class CounsellerServiceImpl implements CounsellerService {
 
 	@Autowired
 	private CounsellerRepo repo;
+	
+	@Autowired
+	private HttpSession session;
 
 	@Override
-	public CounsellerResponse loginCounseller(LoginDto dto) {
+	public String loginCounseller(LoginDto dto) {
 		// TODO Auto-generated method stub
 
 		CounsellerResponse counsellerDto = new CounsellerResponse();
+		
+		CounsellerEntity entity = repo.findByEmail(dto.getEmail());
+		
+		if(entity == null) {
+			return "Invalid credentails";
+		}else {
+			session.setAttribute("CID", entity.getCounseller_id());
+			return "success";
+		}
+		
+//		counsellerDto.setEmail(entity.getEmail());
+//		counsellerDto.setPwd(entity.getPwd());
 
-		BeanUtils.copyProperties(counsellerDto, repo.findByEmail(dto.getEmail()));
-		return counsellerDto;
+//		BeanUtils.copyProperties(counsellerDto, entity);
+//		return counsellerDto;
 	}
 
 	@Override

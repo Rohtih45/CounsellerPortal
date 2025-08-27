@@ -18,7 +18,7 @@ public class StudentResponse {
 	
 	private String status;
 	
-	private CourseEntity course;
+	private String course;
 	
 	private CounsellerEntity counseller;
 

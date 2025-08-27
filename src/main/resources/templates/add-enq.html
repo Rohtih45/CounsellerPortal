@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Bootstrap demo</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+
+<body>
+
+	<div class="container">
+
+		<h2>Add Enquiry Here</h2>
+
+		<font style="color:green">
+			<p th:text="${smsg}"></p>
+		</font>
+
+		<font style="color:red">
+			<p th:text="${emsg}"></p>
+		</font>
+
+
+		<form th:action="@{/add-enq}" th:object="${student}" method="post">
+
+			<table>
+				<tr>
+					<td>Name : </td>
+					<td>
+						<input type="text" th:field="*{name}" class="form-control" required />
+					</td>
+				</tr>
+
+				<tr>
+					<td>phno : </td>
+					<td>
+						<input type="text" th:field="*{phno}" class="form-control" required />
+					</td>
+				</tr>
+				<tr>
+					<td>Class Mode :</td>
+					<td>
+						<select th:field="*{classMode}" class="form-control">
+							<option value="">-- Select --</option>
+							<option value="Online">Online</option>
+							<option value="Class Room">Class Room</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>Staus :</td>
+					<td>
+						<select th:field="*{status}" class="form-control">
+							<option value="">-- Select --</option>
+							<option value="new">new</option>
+							<option value="enrolled">enrolled</option>
+							<option value="lost">lost</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>Course :</td>
+					<td>
+						<select th:field="*{course}" class="form-control">
+							<option value="">-- Select --</option>
+							<option value="JAVA">Java</option>
+							<option value="PYTHON">Python</option>
+							<option value="SPRINGBOOT">Spring Boot</option>
+						</select>
+					</td>
+				</tr>
+
+				<tr>
+					<td></td>
+					<td><input type="submit" value="Save" class="btn btn-primary" />
+					</td>
+				</tr>
+
+			</table>
+			<tr>
+				<td></td>
+				<td> <a href="view-enq" type="button" class="btn btn-primary">View All Enquires</a>
+				</td>
+			</tr>
+
+		</form>
+
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+		crossorigin="anonymous"></script>
+</body>
+
+</html>
