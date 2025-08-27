@@ -11,7 +11,31 @@
 
 <body>
 
-	<div class="container">
+
+
+	<div class="container-fluid">
+
+		<nav class="navbar" style="background-color: #e3f2fd;" data-bs-theme="light">
+			<!-- Navbar content -->
+			<ul class="nav">
+				<li class="nav-item">
+					<a href="dashboard" aria-current="page" class="nav-link ">Dashboard</a>
+				</li>
+				<li class="nav-item">
+					<a href="add-enq" aria-current="page" class="nav-link ">Add New Enquiry</a>
+				</li>
+				<br />
+				<li class="nav-item">
+					<a href="view-enq" aria-current="page" class="nav-link active">View Enquires</a>
+				</li>
+				<li class="nav-item">
+					<a href="logout" class="nav-link">Logout</a>
+				</li>
+
+			</ul>
+		</nav>
+
+		<hr />
 
 		<h2>Welcome to Your dashboard</h2>
 
@@ -21,44 +45,31 @@
 				<tr>
 					<td>Total Enquires : </td>
 					<td>
-						<p th:field="*{totalEnquires}" required />
+						<span th:text="*{totalEnquires}" />
 					</td>
 				</tr>
 
 				<tr>
 					<td>Open Enquires : </td>
 					<td>
-						<p th:field="*{openEnquires}" required />
+						<span th:text="*{openEnquires}" required />
 					</td>
 				</tr>
 				<tr>
 					<td>Enrolled Enquires : </td>
 					<td>
-						<p th:field="*{enrolledEnquires}" required />
+						<span th:text="*{enrolledEnquires}" required />
 					</td>
 				</tr>
 				<tr>
 					<td>Lost Enquires : </td>
 					<td>
-						<p th:field="*{lostEnquires}" required />
+						<span th:text="*{lostEnquires}" required />
 					</td>
 				</tr>
 
 
 			</table>
-			<tr>
-				<td></td>
-				<td> <a href="add-enq" type="button" class="btn btn-primary">Add New Enquiry</a>
-				</td>
-				<td></td>
-				<td> <a href="view-enq" type="button" class="btn btn-secondary">View Enquires</a>
-				</td>
-			</tr>
-			<tr>
-				<td></td>
-				<td> <a href="/" type="button" class="btn btn-primary">Logout</a>
-				</td>
-			</tr>
 
 
 		</form>

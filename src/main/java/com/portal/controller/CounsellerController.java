@@ -16,21 +16,16 @@ import com.portal.service.CourseService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.Session;
 
 @Controller
 public class CounsellerController {
 
-	private static final String Integer = null;
+	@Autowired
+	private HttpSession session;
 
 	@Autowired
 	private CounsellerService service;
-
-	private CourseService courseService;
-
-	public String getCourses() {
-		courseService.getCourses();
-		return null;
-	}
 
 	@GetMapping("/")
 	public String getIndex(Model model) {
@@ -63,12 +58,12 @@ public class CounsellerController {
 		model.addAttribute("counseller", new RegisterDto());
 		return "register";
 	}
-	
+
 	@PostMapping("/register")
 	public String register(RegisterDto req, Model model) {
 		Boolean status = service.registerCounseller(req);
-		
-		if(status) {
+
+		if (status) {
 			return "redirect:/";
 		}
 		model.addAttribute("msg", "Error");
@@ -86,6 +81,12 @@ public class CounsellerController {
 		model.addAttribute("dashboardinfo", dashboardResponse);
 
 		return "dashboard";
+	}
+	
+	@GetMapping("/logout")
+	public String logout() {
+		session.invalidate();
+		return "redirect:/";
 	}
 
 }

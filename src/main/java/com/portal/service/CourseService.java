@@ -6,6 +6,6 @@ import com.portal.dtos.CourseDto;
 
 public interface CourseService {
 	
-	List<CourseDto> getCourses();
+	List<String> getCourses();
 
 }

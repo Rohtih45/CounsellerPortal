@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.portal.dtos.EnqueryFilterResponse;
 import com.portal.dtos.StudentResponse;
 import com.portal.entity.CounsellerEntity;
+import com.portal.entity.CourseEntity;
 import com.portal.entity.Student;
 import com.portal.repository.CounsellerRepo;
 import com.portal.repository.CourseRepo;
@@ -33,6 +34,8 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public Boolean addStudent(StudentResponse dto, Integer counsellerId) {
 		// TODO Auto-generated method stub
+
+		CourseEntity courseEntity = courseRepo.findByName(dto.getCourse().getName());
 		Student student = new Student();
 
 		BeanUtils.copyProperties(dto, student);
@@ -40,6 +43,8 @@ public class StudentServiceImpl implements StudentService {
 		CounsellerEntity counsellerEntity = counsellerRepo.findById(counsellerId).get();
 
 		student.setCounseller(counsellerEntity);
+
+		student.setCourse(courseEntity);
 
 		return repo.save(student) != null ? true : false;
 	}
@@ -79,26 +84,30 @@ public class StudentServiceImpl implements StudentService {
 		// TODO Auto-generated method stub
 		CounsellerEntity counsellerEntity = counsellerRepo.findById(counsellerId).get();
 
-		List<Student> students = counsellerEntity.getStudents();
-
-		List<StudentResponse> enqueries = new ArrayList<>();
-
 		// Query By Example
 
 		Student studentEnq = new Student();
-		studentEnq.setClassMode(enqueryFilterResponse.getClassMode());
-		studentEnq.setCourse(courseRepo.findByName(enqueryFilterResponse.getCourse()));
-		studentEnq.setStatus(enqueryFilterResponse.getStatus());
 
-		Example<Student> obj = Example.of(studentEnq);
+		if (!"".equals(enqueryFilterResponse.getClassMode()) && enqueryFilterResponse.getClassMode() != null) {
 
-//		List<Student> studentsEnq = repo.findBy(obj, enq -> enq.all());
+			studentEnq.setClassMode(enqueryFilterResponse.getClassMode());
+		}
 
-		List<Student> studentEnqs = repo.findAll(Example.of(studentEnq));
+		if (!"".equals(enqueryFilterResponse.getCourse()) && enqueryFilterResponse.getCourse() != null) {
+
+			studentEnq.setCourse(courseRepo.findByName(enqueryFilterResponse.getCourse()));
+		}
+
+		if (!"".equals(enqueryFilterResponse.getStatus()) && enqueryFilterResponse.getStatus() != null) {
+			studentEnq.setStatus(enqueryFilterResponse.getStatus());
+
+		}
+
+		List<Student> studentsEnq = repo.findAll(Example.of(studentEnq));
 
 		List<StudentResponse> dtos = new ArrayList<>();
 
-		for (Student student : studentEnqs) {
+		for (Student student : studentsEnq) {
 			StudentResponse dto = new StudentResponse();
 
 			BeanUtils.copyProperties(student, dto);
@@ -106,57 +115,23 @@ public class StudentServiceImpl implements StudentService {
 			dtos.add(dto);
 		}
 
-		if (!"".equals(enqueryFilterResponse.getClassMode()) && enqueryFilterResponse.getClassMode() != null) {
-			List<Student> classModes = students.stream()
-					.filter(student -> student.getClassMode().equals(enqueryFilterResponse.getClassMode()))
-					.collect(Collectors.toList());
-			for (Student student : classModes) {
-				StudentResponse dto = new StudentResponse();
-				BeanUtils.copyProperties(student, dto);
-				enqueries.add(dto);
-			}
-		}
-
-		if (!"".equals(enqueryFilterResponse.getCourse()) && enqueryFilterResponse.getCourse() != null) {
-			List<Student> Courses = students.stream()
-					.filter(student -> student.getCourse().equals(enqueryFilterResponse.getCourse()))
-					.collect(Collectors.toList());
-
-			for (Student student : Courses) {
-				StudentResponse dto = new StudentResponse();
-
-				BeanUtils.copyProperties(student, dto);
-
-				enqueries.add(dto);
-			}
-
-		}
-
-		if (!"".equals(enqueryFilterResponse.getCourse()) && enqueryFilterResponse.getCourse() != null) {
-
-			List<Student> Courses = students.stream()
-					.filter(student -> student.getCourse().equals(enqueryFilterResponse.getCourse()))
-					.collect(Collectors.toList());
-
-			for (Student student : Courses) {
-				StudentResponse dto = new StudentResponse();
-
-				BeanUtils.copyProperties(student, dto);
-
-				enqueries.add(dto);
-			}
-
-		}
-
-		return enqueries;
+		return dtos;
 	}
 
 	@Override
-	public Boolean updateStudent(StudentResponse studentDto, Integer stuId) {
+	public Boolean updateStudent(StudentResponse studentDto, Integer stuId, Integer counselletId) {
+
+		CourseEntity courseEntity = courseRepo.findByName(studentDto.getCourse().getName());
+
+		CounsellerEntity counsellerEntity = counsellerRepo.findById(counselletId).orElseThrow();
 		// TODO Auto-generated method stub
 		Student entity = repo.findById(stuId).orElseThrow();
 
-		BeanUtils.copyProperties(studentDto, entity);
+		BeanUtils.copyProperties(studentDto, entity, "s_id");
+
+		entity.setCounseller(counsellerEntity);
+
+		entity.setCourse(courseEntity);
 
 		return repo.save(entity) != null ? true : false;
 	}

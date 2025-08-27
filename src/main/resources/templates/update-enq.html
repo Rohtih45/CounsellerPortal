@@ -11,12 +11,33 @@
 
 <body>
 
-	<div class="container">
+	<div class="container-fliud">
+
+		<nav class="navbar" style="background-color: #e3f2fd;" data-bs-theme="light">
+			<!-- Navbar content -->
+			<ul class="nav">
+				<li class="nav-item">
+					<a href="dashboard" aria-current="page" class="nav-link ">Dashboard</a>
+				</li>
+				<li class="nav-item">
+					<a href="add-enq" aria-current="page" class="nav-link ">Add New Enquiry</a>
+				</li>
+				<br />
+				<li class="nav-item">
+					<a href="view-enq" aria-current="page" class="nav-link active">View Enquires</a>
+				</li>
+				<li class="nav-item">
+					<a href="logout" class="nav-link">Logout</a>
+				</li>
+
+			</ul>
+		</nav>
+		<hr />
 
 		<h2>Add Enquiry Here</h2>
 
-		
-		<form th:action="@{/register}" th:object="${student}" method="post">
+
+		<form th:action="@{/update-enq/{id}(id=${student.s_id})}" th:object="${student}" method="post">
 
 			<table>
 				<tr>
@@ -56,11 +77,10 @@
 				<tr>
 					<td>Course :</td>
 					<td>
-						<select th:field="*{course}" class="form-control">
-							<option value="" disabled selected>-- Select Course --</option>
-							<option value="JAVA">Java</option>
-							<option value="PYTHON">Python</option>
-							<option value="SPRINGBOOT">Spring Boot</option>
+						<select th:field="*{course.name}" class="form-control">
+							<option value="">-- Select --</option>
+							<option th:each="course : ${course}" th:value="${course}" th:text="${course}">
+							</option>
 						</select>
 					</td>
 				</tr>
@@ -72,13 +92,14 @@
 				</tr>
 
 			</table>
-			<tr>
-				<td></td>
-				<td> <a href="view-enq" type="button" class="btn btn-primary">View All Enquires</a>
-				</td>
-			</tr>
+
 
 		</form>
+		<tr>
+			<td></td>
+			<td> <a href="/view-enq" type="button" class="btn btn-primary">View All Enquires</a>
+			</td>
+		</tr>
 
 	</div>
 

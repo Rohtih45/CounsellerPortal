@@ -17,22 +17,18 @@ public class CourseServiceImpl implements CourseService {
 	@Autowired
 	private CourseRepo repo;
 
-	public List<CourseDto> getCourses() {
+	public List<String> getCourses() {
 		// TODO Auto-generated method stub
 
-		List<CourseDto> courseDto = new ArrayList<>();
+		List<String> courseName = new ArrayList<>();
 
 		List<CourseEntity> all = repo.findAll();
 
 		for (CourseEntity courseEntity : all) {
 
-			CourseDto dto = new CourseDto();
-
-			BeanUtils.copyProperties(dto, all);
-			
-			courseDto.add(dto);
+			courseName.add(courseEntity.getName());
 		}
-		return courseDto;
+		return courseName;
 	}
 
 }
